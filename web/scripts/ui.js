@@ -1,4 +1,5 @@
 import {api} from "./api.js";
+import {serverconfig} from "./config.js";
 
 export function $el(tag, propsOrChildren, children) {
 	const split = tag.split(".");
@@ -639,6 +640,27 @@ export class ComfyUI {
 			]),
 			this.queue.element,
 			this.history.element,
+			$el("button", {
+				id: "comfy-save-button",
+				textContent: "Save Preset",
+				onclick: () => {
+					let name = prompt("Save preset:", "");
+					if (!name) return;
+
+					const json = JSON.stringify(app.graph.serialize(), null, 2); // convert the data to a JSON string
+					// Create a post request to the server to save the preset
+					const request = new XMLHttpRequest();
+					// Encode the name and any keys from the url
+					const params = new URLSearchParams(window.location.search);
+					params.append("name", name);
+
+					// Cretate the url
+					const url = serverconfig.address + "/save-preset?" + params.toString();
+					request.open("POST", url, true);
+					request.setRequestHeader("Content-Type", "application/json");
+					request.send(JSON.stringify({name: name, data: json}));
+				},
+			}),
 			$el("button", {
 				id: "comfy-save-button",
 				textContent: "Save",

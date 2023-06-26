@@ -1,3 +1,5 @@
+import {serverconfig} from './config.js';
+
 class ComfyApi extends EventTarget {
 	#registered = new Set();
 
@@ -189,18 +191,39 @@ class ComfyApi extends EventTarget {
 			body.number = number;
 		}
 
-		const res = await fetch("/prompt", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(body),
-		});
+		if (serverconfig.local) {
+			const res = await fetch("/prompt", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(body),
+			});
 
-		if (res.status !== 200) {
-			throw {
-				response: await res.json(),
-			};
+			if (res.status !== 200) {
+				throw {
+					response: await res.json(),
+				};
+			}
+		} else {
+			// Get uri params and append to url
+			const params = new URLSearchParams(window.location.search);
+			const url = new URL(serverconfig.address + "/prompt");
+			url.search = params.toString();
+			console.log(url.toString());
+			const res = await fetch(url.toString(), {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(body),
+			});
+
+			if (res.status !== 200) {
+				throw {
+					response: await res.json(),
+				};
+			}
 		}
 	}
 
