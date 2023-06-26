@@ -75,7 +75,7 @@ export const defaultGraph = {
 		},
 		{
 			id: 9,
-			type: "SaveImage",
+			type: "SubmitImage",
 			pos: [1451, 189],
 			size: { 0: 210, 1: 26 },
 			flags: {},
