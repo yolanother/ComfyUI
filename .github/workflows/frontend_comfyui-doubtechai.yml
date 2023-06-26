@@ -61,3 +61,5 @@ jobs:
           app-name: 'comfyui-doubtechai'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_81DE7DB979E94BFDB26A7256E71B2DA3 }}
+      - name: "Run"
+        run: start.sh
