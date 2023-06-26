@@ -1413,6 +1413,8 @@ export class ComfyApp {
 				for (let i = 0; i < batchCount; i++) {
 					const p = await this.graphToPrompt();
 
+					
+
 					try {
 						await api.queuePrompt(number, p);
 					} catch (error) {

@@ -75,7 +75,7 @@ class PromptServer():
         if args.enable_cors_header:
             middlewares.append(create_cors_middleware(args.enable_cors_header))
 
-        self.app = web.Application(client_max_size=20971520, middlewares=middlewares)
+        self.app = web.Application(client_max_size=20971520, middlewares=middlewares, handler_args={'max_field_size': 16380})
         self.sockets = dict()
         self.web_root = os.path.join(os.path.dirname(
             os.path.realpath(__file__)), "web")
@@ -363,6 +363,7 @@ class PromptServer():
             out = {}
             for x in nodes.NODE_CLASS_MAPPINGS:
                 out[x] = node_info(x)
+            print(out)
             return web.json_response(out)
 
         @routes.get("/object_info/{node_class}")

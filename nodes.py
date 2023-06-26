@@ -1293,22 +1293,22 @@ class ImagePadForOutpaint:
 
 NODE_CLASS_MAPPINGS = {
     "KSampler": KSampler,
-    "CheckpointLoaderSimple": CheckpointLoaderSimple,
+    #"CheckpointLoaderSimple": CheckpointLoaderSimple,
     "CLIPTextEncode": CLIPTextEncode,
     "CLIPSetLastLayer": CLIPSetLastLayer,
     "VAEDecode": VAEDecode,
     "VAEEncode": VAEEncode,
     "VAEEncodeForInpaint": VAEEncodeForInpaint,
-    "VAELoader": VAELoader,
+    #"VAELoader": VAELoader,
     "EmptyLatentImage": EmptyLatentImage,
     "LatentUpscale": LatentUpscale,
     "LatentUpscaleBy": LatentUpscaleBy,
     "LatentFromBatch": LatentFromBatch,
     "RepeatLatentBatch": RepeatLatentBatch,
-    "SaveImage": SaveImage,
-    "PreviewImage": PreviewImage,
-    "LoadImage": LoadImage,
-    "LoadImageMask": LoadImageMask,
+    #"SaveImage": SaveImage,
+    #"PreviewImage": PreviewImage,
+    #"LoadImage": LoadImage,
+    #"LoadImageMask": LoadImageMask,
     "ImageScale": ImageScale,
     "ImageScaleBy": ImageScaleBy,
     "ImageInvert": ImageInvert,
@@ -1323,27 +1323,27 @@ NODE_CLASS_MAPPINGS = {
     "LatentRotate": LatentRotate,
     "LatentFlip": LatentFlip,
     "LatentCrop": LatentCrop,
-    "LoraLoader": LoraLoader,
-    "CLIPLoader": CLIPLoader,
+    #"LoraLoader": LoraLoader,
+    #"CLIPLoader": CLIPLoader,
     "CLIPVisionEncode": CLIPVisionEncode,
     "StyleModelApply": StyleModelApply,
     "unCLIPConditioning": unCLIPConditioning,
     "ControlNetApply": ControlNetApply,
-    "ControlNetLoader": ControlNetLoader,
-    "DiffControlNetLoader": DiffControlNetLoader,
-    "StyleModelLoader": StyleModelLoader,
-    "CLIPVisionLoader": CLIPVisionLoader,
+    #"ControlNetLoader": ControlNetLoader,
+    #"DiffControlNetLoader": DiffControlNetLoader,
+    #"StyleModelLoader": StyleModelLoader,
+    #"CLIPVisionLoader": CLIPVisionLoader,
     "VAEDecodeTiled": VAEDecodeTiled,
     "VAEEncodeTiled": VAEEncodeTiled,
     "TomePatchModel": TomePatchModel,
-    "unCLIPCheckpointLoader": unCLIPCheckpointLoader,
-    "GLIGENLoader": GLIGENLoader,
+    #"unCLIPCheckpointLoader": unCLIPCheckpointLoader,
+    #"GLIGENLoader": GLIGENLoader,
     "GLIGENTextBoxApply": GLIGENTextBoxApply,
 
     "CheckpointLoader": CheckpointLoader,
-    "DiffusersLoader": DiffusersLoader,
+    #"DiffusersLoader": DiffusersLoader,
 
-    "LoadLatent": LoadLatent,
+    #"LoadLatent": LoadLatent,
     "SaveLatent": SaveLatent
 }
 
@@ -1352,16 +1352,16 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "KSampler": "KSampler",
     "KSamplerAdvanced": "KSampler (Advanced)",
     # Loaders
-    "CheckpointLoader": "Load Checkpoint (With Config)",
-    "CheckpointLoaderSimple": "Load Checkpoint",
-    "VAELoader": "Load VAE",
-    "LoraLoader": "Load LoRA",
-    "CLIPLoader": "Load CLIP",
-    "ControlNetLoader": "Load ControlNet Model",
-    "DiffControlNetLoader": "Load ControlNet Model (diff)",
-    "StyleModelLoader": "Load Style Model",
-    "CLIPVisionLoader": "Load CLIP Vision",
-    "UpscaleModelLoader": "Load Upscale Model",
+    #"CheckpointLoader": "Load Checkpoint (With Config)",
+    #"CheckpointLoaderSimple": "Load Checkpoint",
+    #"VAELoader": "Load VAE",
+    #"LoraLoader": "Load LoRA",
+    #"CLIPLoader": "Load CLIP",
+    #"ControlNetLoader": "Load ControlNet Model",
+    #"DiffControlNetLoader": "Load ControlNet Model (diff)",
+    #"StyleModelLoader": "Load Style Model",
+    #"CLIPVisionLoader": "Load CLIP Vision",
+    #"UpscaleModelLoader": "Load Upscale Model",
     # Conditioning
     "CLIPVisionEncode": "CLIP Vision Encode",
     "StyleModelApply": "Apply Style Model",
@@ -1413,6 +1413,7 @@ def load_custom_node(module_path):
             module_spec = importlib.util.spec_from_file_location(module_name, os.path.join(module_path, "__init__.py"))
         module = importlib.util.module_from_spec(module_spec)
         sys.modules[module_name] = module
+        print(f"Loading module {module_name}")
         module_spec.loader.exec_module(module)
         if hasattr(module, "NODE_CLASS_MAPPINGS") and getattr(module, "NODE_CLASS_MAPPINGS") is not None:
             NODE_CLASS_MAPPINGS.update(module.NODE_CLASS_MAPPINGS)
